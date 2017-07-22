@@ -8,6 +8,10 @@
 %}
 
 %token T_Int
+%left '+'
+%left '-'
+%left '*'
+%left '/'
 
 %%
 
@@ -15,10 +19,10 @@ S  : S E '\n' { printf("= %d\n", Top()); }
    |
    ;
 
-E  : E E '+' { Push(Pop() + Pop()); }
-   | E E '-' { int op2 = Pop(); Push(Pop() - op2); }
-   | E E '*' { Push(Pop() * Pop()); }
-   | E E '/' { int op2 = Pop(); Push(Pop() / op2); }
+E  : E '+' E { Push(Pop() + Pop()); }
+   | E '-' E { int op2 = Pop(); Push(Pop() - op2); }
+   | E '*' E { Push(Pop() * Pop()); }
+   | E '/' E { int op2 = Pop(); Push(Pop() / op2); }
    | T_Int   { Push(yylval); }
    ;
 
