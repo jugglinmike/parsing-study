@@ -8,7 +8,8 @@ I have no idea what I'm doing.
 
 ## Resources
 
-https://staff.fnwi.uva.nl/a.d.pimentel/compiler/yacc-intro.pdf
+- https://staff.fnwi.uva.nl/a.d.pimentel/compiler/yacc-intro.pdf
+- http://aquamentus.com/flex_bison.html
 
 ## License
 
