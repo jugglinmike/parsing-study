@@ -17,7 +17,8 @@ HEAD               { return VERB_HEAD; }
 [0-9]+             { yylval.ival = atoi(yytext); return INT; }
 [a-zA-Z\.0-9]+     { yylval.sval = strdup(yytext); return STRING; }
 [\/:?]             { return yytext[0]; }
-\n                 { return NEWLINE; }
+\r                 { return CR; }
+\n                 { return LF; }
 [ \t]              ;
 .                  ;
 %%

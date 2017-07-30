@@ -23,7 +23,8 @@ void yyerror(const char *s);
 %token VERB_POST
 %token VERB_DELETE
 %token VERB_HEAD
-%token NEWLINE
+%token CR
+%token LF
 
 %token <ival> INT
 %token <fval> FLOAT
@@ -36,9 +37,13 @@ message:
 	   | response { cout << "HTTP response" << endl; }
 	   ;
 
+CRLF:
+	CR LF {}
+	;
+
 request:
-	   request_verb uri PROTO_VER NEWLINE
-			headers NEWLINE { cout << "HTTP request 2" << endl; }
+	   request_verb uri PROTO_VER CRLF
+			headers CRLF { cout << "HTTP request 2" << endl; }
 	   ;
 
 request_verb:
@@ -69,7 +74,7 @@ uri_path_relative:
 				 ;
 
 headers:
-	   headers NEWLINE header {}
+	   headers CRLF header {}
 	   | header {}
 	   ;
 
