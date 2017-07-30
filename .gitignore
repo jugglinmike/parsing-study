@@ -2,3 +2,4 @@
 !/*/*.y
 !/*/*.l
 !/001-snazzle/*.snazzle
+!/003-ecma262/test/
