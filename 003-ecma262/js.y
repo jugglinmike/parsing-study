@@ -11,17 +11,60 @@ void yyerror(const char *s);
 %}
 
 %union {
-  int ival;
-  float fval;
+  float nval;
   char *sval;
 }
 
 %token VOID
-%token OCTET
-%token <ival> NUMBER
+%token TYPEOF
+%token VAR
+%token STRING
+%token BOOLEAN
+%token NULL_
+%token FUNCTION
+%token RETURN
+%token IF
+%token ELSE
+%token <nval> NUMBER
+%token <svalu> IDENTIFIER
+
 %%
 
-program: VOID NUMBER ';';
+program: statement_list;
+
+statement_list: statement | statement_list statement;
+
+// TODO: Only allow `return` in function contexts
+statement: decl | if_statement | RETURN expr ';' | expr ';';
+
+expr: void_expr | typeof_expr | primary_expr;
+
+decl: var_decl | function_decl;
+
+var_decl: VAR binding_list ';';
+
+block: '{' statement_list '}';
+
+if_statement: IF '(' expr ')' statement_or_block
+			| IF '(' expr ')' statement_or_block ELSE statement_or_block;
+statement_or_block: statement | block;
+
+function_decl: FUNCTION IDENTIFIER '(' parameter_list ')'
+  '{' statement_list '}';
+parameter_list: %empty | IDENTIFIER | parameter_list ',' IDENTIFIER;
+
+binding_list: binding_element | binding_list ',' binding_element;
+binding_element: IDENTIFIER | IDENTIFIER '=' expr;
+
+void_expr: VOID expr;
+
+typeof_expr: TYPEOF expr;
+
+primary_expr: literal_expr | identifier_ref_expr;
+
+literal_expr: NUMBER | STRING | BOOLEAN | NULL_;
+
+identifier_ref_expr: IDENTIFIER;
 
 %%
 int main() {
