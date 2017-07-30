@@ -35,7 +35,7 @@ program: statement_list;
 statement_list: statement | statement_list statement;
 
 // TODO: Only allow `return` in function contexts
-statement: decl | if_statement | RETURN expr ';' | expr ';';
+statement: decl | if_statement | return_statement | expr ';';
 
 expr: void_expr | typeof_expr | primary_expr;
 
@@ -44,6 +44,8 @@ decl: var_decl | function_decl;
 var_decl: VAR binding_list ';';
 
 block: '{' statement_list '}';
+
+return_statement: RETURN expr ';';
 
 if_statement: IF '(' expr ')' statement_or_block
 			| IF '(' expr ')' statement_or_block ELSE statement_or_block;
@@ -56,11 +58,14 @@ parameter_list: %empty | IDENTIFIER | parameter_list ',' IDENTIFIER;
 binding_list: binding_element | binding_list ',' binding_element;
 binding_element: IDENTIFIER | IDENTIFIER '=' expr;
 
+function_expr: FUNCTION '(' parameter_list ')' '{' statement_list '}'
+			 | function_decl;
+
 void_expr: VOID expr;
 
 typeof_expr: TYPEOF expr;
 
-primary_expr: literal_expr | identifier_ref_expr;
+primary_expr: literal_expr | identifier_ref_expr | function_expr;
 
 literal_expr: NUMBER | STRING | BOOLEAN | NULL_;
 
