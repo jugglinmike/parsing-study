@@ -15,10 +15,6 @@ DELETE             { return VERB_DELETE; }
 HEAD               { return VERB_HEAD; }
 [0-9]+\.[0-9]+     { yylval.fval = atof(yytext); return FLOAT; }
 [0-9]+             { yylval.ival = atoi(yytext); return INT; }
-[a-zA-Z\.0-9]+     { yylval.sval = strdup(yytext); return STRING; }
 [\/:?]             { return yytext[0]; }
-\r                 { return CR; }
-\n                 { return LF; }
-[ \t]              ;
-.                  ;
+.                  { return OCTET; }
 %%

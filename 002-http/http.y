@@ -23,13 +23,10 @@ void yyerror(const char *s);
 %token VERB_POST
 %token VERB_DELETE
 %token VERB_HEAD
-%token CR
-%token LF
+%token OCTET
 
 %token <ival> INT
 %token <fval> FLOAT
-%token <sval> STRING
-%token <sval> VERB;
 %%
 
 message:
@@ -38,8 +35,13 @@ message:
 	   ;
 
 CRLF:
-	CR LF {}
+	"\r\n" {}
 	;
+
+STRING:
+	  OCTET {}
+	  | OCTET STRING {}
+	  ;
 
 request:
 	   request_verb uri PROTO_VER CRLF
@@ -52,6 +54,7 @@ request_verb:
 			| VERB_POST {}
 			| VERB_DELETE {}
 			| VERB_HEAD {}
+			| OCTET {}
 			;
 
 uri:
@@ -81,7 +84,8 @@ headers:
 header: STRING ':' STRING {};
 
 response:
-	   PROTO_VER INT STRING {}
+	   PROTO_VER INT STRING CRLF
+		headers CRLF {}
 	   ;
 
 %%
