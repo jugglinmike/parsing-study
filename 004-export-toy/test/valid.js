@@ -11,4 +11,4 @@ export { foo, bar as baz, };
 export { foo, bar, baz };
 export { foo, bar as baz, qux };
 
-export { foo } from 'elsewhere';
+from 'elsewhere' export { foo };

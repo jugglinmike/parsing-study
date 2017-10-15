@@ -35,7 +35,7 @@ statement_list: statement_list statement
 
 statement: export_decl;
 
-export_decl: EXPORT export_clause from_clause ';'
+export_decl: from_clause EXPORT export_clause ';'
  | EXPORT export_clause_local ';'
  ;
 
